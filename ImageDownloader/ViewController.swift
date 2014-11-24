@@ -43,20 +43,22 @@ class ViewController: NSViewController {
         var donedCount = 0.0
         
         for urlString in rawURLs{
-            let url = NSURL(string: (urlString) as NSString)!
-            
-            let data = NSData(contentsOfURL: url)
-            let fileFullURLPath = saveDir.URLByAppendingPathComponent(url.lastPathComponent)
-            
-            if (data?.writeToURL(fileFullURLPath, atomically: true) != nil) {
-                println("Done -> \(fileFullURLPath)")
-                donedCount++
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.refreshBarIndicator(donedCount / Double(rawURLs.count) * 100)
-                })
-            }else{
-                println("nil")
-            }
+            autoreleasepool({ () -> () in
+                let url = NSURL(string: (urlString) as NSString)!
+                
+                let data = NSData(contentsOfURL: url)
+                let fileFullURLPath = saveDir.URLByAppendingPathComponent(url.lastPathComponent)
+                
+                if (data?.writeToURL(fileFullURLPath, atomically: true) != nil) {
+                    println("Done -> \(fileFullURLPath)")
+                    donedCount++
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.refreshBarIndicator(donedCount / Double(rawURLs.count) * 100)
+                    })
+                }else{
+                    println("nil")
+                }
+            })
         }
     }
     
