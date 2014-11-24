@@ -40,6 +40,8 @@ class ViewController: NSViewController {
     }
     
     func downloadData(rawURLs:NSArray!, contentString:NSString!, saveDir:NSURL) {
+        var donedCount = 0.0
+        
         for urlString in rawURLs{
             let url = NSURL(string: (urlString) as NSString)!
             
@@ -48,10 +50,18 @@ class ViewController: NSViewController {
             
             if (data?.writeToURL(fileFullURLPath, atomically: true) != nil) {
                 println("Done -> \(fileFullURLPath)")
+                donedCount++
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.refreshBarIndicator(donedCount / Double(rawURLs.count) * 100)
+                })
             }else{
                 println("nil")
             }
         }
+    }
+    
+    func refreshBarIndicator(current: NSNumber) {
+        barIndicator?.doubleValue = current.doubleValue
     }
     
 //MARK: - 保存先作成
@@ -86,6 +96,7 @@ class ViewController: NSViewController {
 //MARK: - Action
     @IBOutlet var htmlTextField:NSTextField?
     @IBOutlet var indicator:NSProgressIndicator?
+    @IBOutlet var barIndicator:NSProgressIndicator?
     @IBOutlet var startButton:NSButton?
     @IBOutlet var checkButton:NSButton?
     

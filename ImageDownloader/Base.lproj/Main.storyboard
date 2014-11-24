@@ -671,6 +671,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="411"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ywj-NR-K9c">
+                                <rect key="frame" x="293" y="22" width="16" height="16"/>
+                            </progressIndicator>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpc-g6-5vK">
                                 <rect key="frame" x="20" y="71" width="440" height="320"/>
                                 <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="SHA-DB-xfe">
@@ -696,12 +699,13 @@
                                     <font key="font" size="13" name="HiraKakuProN-W3"/>
                                 </buttonCell>
                             </button>
-                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ywj-NR-K9c">
-                                <rect key="frame" x="293" y="22" width="16" height="16"/>
+                            <progressIndicator fixedFrame="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="uXr-g6-aXp">
+                                <rect key="frame" x="20" y="-1" width="440" height="20"/>
                             </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="barIndicator" destination="uXr-g6-aXp" id="yKb-e0-aU1"/>
                         <outlet property="checkButton" destination="fP2-DI-rZb" id="6KG-UN-5bU"/>
                         <outlet property="htmlTextField" destination="lpc-g6-5vK" id="8H9-Fb-uYv"/>
                         <outlet property="indicator" destination="Ywj-NR-K9c" id="r0h-Fq-gIJ"/>
