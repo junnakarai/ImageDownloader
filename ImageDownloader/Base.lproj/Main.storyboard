@@ -668,14 +668,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="ImageDownloader" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="411"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ywj-NR-K9c">
-                                <rect key="frame" x="293" y="13" width="16" height="16"/>
-                            </progressIndicator>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpc-g6-5vK">
-                                <rect key="frame" x="20" y="40" width="440" height="320"/>
+                                <rect key="frame" x="20" y="71" width="440" height="320"/>
                                 <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="SHA-DB-xfe">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -683,7 +680,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Za7-DN-AeK">
-                                <rect key="frame" x="189" y="4" width="102" height="32"/>
+                                <rect key="frame" x="189" y="13" width="102" height="32"/>
                                 <buttonCell key="cell" type="push" title="Download" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4uE-4C-rca">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -692,9 +689,20 @@
                                     <action selector="startButtonAction:" target="XfG-lQ-9wD" id="f3L-k9-W2s"/>
                                 </connections>
                             </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fP2-DI-rZb">
+                                <rect key="frame" x="119" y="47" width="243" height="18"/>
+                                <buttonCell key="cell" type="check" title="保存先に新規ディレクトリを作成する" bezelStyle="regularSquare" imagePosition="left" alignment="center" state="on" inset="2" id="iPU-1b-vwk">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" size="13" name="HiraKakuProN-W3"/>
+                                </buttonCell>
+                            </button>
+                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Ywj-NR-K9c">
+                                <rect key="frame" x="293" y="22" width="16" height="16"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="checkButton" destination="fP2-DI-rZb" id="6KG-UN-5bU"/>
                         <outlet property="htmlTextField" destination="lpc-g6-5vK" id="8H9-Fb-uYv"/>
                         <outlet property="indicator" destination="Ywj-NR-K9c" id="r0h-Fq-gIJ"/>
                         <outlet property="startButton" destination="Za7-DN-AeK" id="DGA-I9-Cq0"/>
@@ -702,7 +710,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="74" y="763"/>
+            <point key="canvasLocation" x="74" y="778.5"/>
         </scene>
     </scenes>
 </document>

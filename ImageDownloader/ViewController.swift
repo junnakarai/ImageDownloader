@@ -55,16 +55,16 @@ class ViewController: NSViewController {
     }
     
 //MARK: - 保存先作成
-    func makeDirectory() -> (fullPath: NSURL?, uuid: NSString?){
+    func makeDirectory() -> (NSURL?){
         let uuid:NSString = NSUUID().UUIDString
         let choosedDir = chooseDirectory()
         if(choosedDir == nil){
-            return (nil, nil)
+            return nil
         }
         let fullPath = (choosedDir as NSURL!).URLByAppendingPathComponent(uuid, isDirectory: true)
         
         NSFileManager().createDirectoryAtURL(fullPath, withIntermediateDirectories: true, attributes: nil, error: nil)
-        return (fullPath, uuid)
+        return fullPath
     }
     
     func chooseDirectory() -> (NSURL?) {
@@ -87,6 +87,7 @@ class ViewController: NSViewController {
     @IBOutlet var htmlTextField:NSTextField?
     @IBOutlet var indicator:NSProgressIndicator?
     @IBOutlet var startButton:NSButton?
+    @IBOutlet var checkButton:NSButton?
     
     @IBAction func startButtonAction(sender:AnyObject) {
         let contentString = htmlTextField?.stringValue
@@ -97,8 +98,14 @@ class ViewController: NSViewController {
             return
         }
         
-        let saveDir = makeDirectory()
-        if(saveDir.fullPath == nil || saveDir.uuid == nil){
+        var saveDir:NSURL?
+        if(checkButton?.state == NSOnState){
+            saveDir = makeDirectory()
+        }else{
+            saveDir = chooseDirectory()
+        }
+        
+        if(saveDir == nil){
             println("Cancel")
             return
         }
@@ -106,7 +113,7 @@ class ViewController: NSViewController {
         indicator?.startAnimation(nil)
         startButton?.enabled = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir.fullPath!)
+            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir!)
             self.startButton?.enabled = true
             self.indicator?.stopAnimation(nil)
 
