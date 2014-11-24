@@ -16,6 +16,14 @@ class ViewController: NSViewController {
         // Do any additional setup after loading the view.
     }
     
+    func showAlert(MessageText messageText:NSString, InformativeText informativeText:NSString) {
+        let alert = NSAlert()
+        alert.messageText = messageText
+        alert.informativeText = informativeText
+        alert.runModal()
+    }
+    
+//MARK: - ダウンロード系
     func formalWithRule(rule:NSString, content:NSString) -> (NSArray?) {
         var resultArray = [NSString]()
         var error:NSError?
@@ -31,36 +39,51 @@ class ViewController: NSViewController {
         return resultArray
     }
     
-    func downloadData(rawURLs:NSArray!, contentString:NSString!, saveDir:NSString) {
+    func downloadData(rawURLs:NSArray!, contentString:NSString!, saveDir:NSURL) {
         for urlString in rawURLs{
             let url = NSURL(string: (urlString) as NSString)!
             
             let data = NSData(contentsOfURL: url)
-            let fileFullPath = saveDir.stringByAppendingPathComponent(url.lastPathComponent)
+            let fileFullURLPath = saveDir.URLByAppendingPathComponent(url.lastPathComponent)
             
-            if (data?.writeToFile(fileFullPath, atomically: true) != nil) {
-                println("Done -> \(fileFullPath)")
+            if (data?.writeToURL(fileFullURLPath, atomically: true) != nil) {
+                println("Done -> \(fileFullURLPath)")
             }else{
                 println("nil")
             }
         }
     }
     
-    func makeDirectory() -> (fullPath: NSString, uuid: NSString){
+//MARK: - 保存先作成
+    func makeDirectory() -> (fullPath: NSURL?, uuid: NSString?){
         let uuid:NSString = NSUUID().UUIDString
-        let fullPath = NSHomeDirectory()+"/Downloads/"+uuid;
-        NSFileManager().createDirectoryAtPath(fullPath, withIntermediateDirectories: true, attributes: nil, error: nil)
+        let choosedDir = chooseDirectory()
+        if(choosedDir == nil){
+            return (nil, nil)
+        }
+        let fullPath = (choosedDir as NSURL!).URLByAppendingPathComponent(uuid, isDirectory: true)
+        
+        NSFileManager().createDirectoryAtURL(fullPath, withIntermediateDirectories: true, attributes: nil, error: nil)
         return (fullPath, uuid)
     }
     
-    func showAlert(MessageText messageText:NSString, InformativeText informativeText:NSString) {
-        let alert = NSAlert()
-        alert.messageText = messageText
-        alert.informativeText = informativeText
-        alert.runModal()
+    func chooseDirectory() -> (NSURL?) {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.resolvesAliases = true
+        panel.prompt = "ここに保存"
+        panel.title = "保存先"
+        
+        var filePath: NSURL
+        
+        if(panel.runModal() == NSFileHandlingPanelOKButton){
+            return (panel.URLs[0] as NSURL)
+        }
+        return nil
     }
     
-    
+//MARK: - Action
     @IBOutlet var htmlTextField:NSTextField?
     @IBOutlet var indicator:NSProgressIndicator?
     @IBOutlet var startButton:NSButton?
@@ -75,12 +98,15 @@ class ViewController: NSViewController {
         }
         
         let saveDir = makeDirectory()
-        showAlert(MessageText: "Save Images Directory is...", InformativeText: saveDir.fullPath)
+        if(saveDir.fullPath == nil || saveDir.uuid == nil){
+            println("Cancel")
+            return
+        }
         
         indicator?.startAnimation(nil)
         startButton?.enabled = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir.fullPath)
+            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir.fullPath!)
             self.startButton?.enabled = true
             self.indicator?.stopAnimation(nil)
 

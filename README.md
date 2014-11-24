@@ -11,8 +11,7 @@
 [GetTabInfo](https://chrome.google.com/webstore/detail/gettabinfo/iadhcoaabobddcebhmheikmbcjcigjhc)
 などを利用して全タブ(画像だけ)のURLのリストをHTMLで生成する
 1. 本アプリに貼り付けて**Download**ボタン押す
-1. `{ホームディレクトリ}/Downloads/{UUID}/`に保存される
-
+1. 任意の保存先ディレクトリを選択すると、そこにUUIDなディレクトリを生成し保存される
 
 ##備考
 エラーチェックとかあんまりしてないけどとりあえず動くのでよし
