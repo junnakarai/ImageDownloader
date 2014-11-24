@@ -9,9 +9,10 @@
 1. GoogleChromeで保存したい画像をタブでたくさん開く
 1. GoogleChromeExtentionの
 [GetTabInfo](https://chrome.google.com/webstore/detail/gettabinfo/iadhcoaabobddcebhmheikmbcjcigjhc)
-などを利用して全タブ(画像だけ)のURLのリストをHTMLで生成する
-1. 本アプリに貼り付けて**Download**ボタン押す
-1. 任意の保存先ディレクトリを選択すると、そこにUUIDなディレクトリを生成し保存される
+などを利用して、全タブ(画像だけ)のURLのリストをHTMLで生成する
+1. 保存先にこれからダウンロードする画像を入れるUUIDな新規ディレクトリを作成するかチェック
+1. 本アプリにHTMLを貼り付けて**Download**ボタンを押す
+1. 任意の保存先ディレクトリを選択すると、そこに画像が保存される。
 
 ##備考
 エラーチェックとかあんまりしてないけどとりあえず動くのでよし
