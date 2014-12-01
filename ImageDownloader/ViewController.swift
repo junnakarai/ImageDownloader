@@ -111,6 +111,21 @@ class ViewController: NSViewController {
             return
         }
         
+        var allImageURLs = [NSString]()
+        for rawURL in rawURLs {
+            let url = NSURL(string: rawURL as NSString)
+            let html = NSString(contentsOfURL: url!, encoding: NSUTF8StringEncoding, error: nil)
+            let imageURL:NSArray = formalWithRule("<a id=image-link class=sample href=\"(.*)\">", content: html!)!
+            var name:NSString = imageURL[0] as NSString
+            let judge = name.hasPrefix("http")
+            if judge != true {
+                allImageURLs.append("http:" + name)
+            }else{
+                allImageURLs.append(name)
+            }
+        }
+
+
         var saveDir:NSURL?
         if(checkButton?.state == NSOnState){
             saveDir = makeDirectory()
@@ -126,7 +141,7 @@ class ViewController: NSViewController {
         indicator?.startAnimation(nil)
         startButton?.enabled = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir!)
+            self.downloadData(allImageURLs, contentString: contentString, saveDir: saveDir!)
             self.startButton?.enabled = true
             self.indicator?.stopAnimation(nil)
 
