@@ -104,12 +104,23 @@ class ViewController: NSViewController {
     
     @IBAction func startButtonAction(sender:AnyObject) {
         let contentString = htmlTextField?.stringValue
-        var rawURLs:NSArray = formalWithRule("<a href=\"(.*)\"", content: contentString!)!
+        let rawURLs:NSArray = formalWithRule("<a href=\"(.*)\"", content: contentString!)!
+//        let rawURLs:NSArray = formalWithRule("<a href=\"(.*)\"", content: contentString!)!
 
         if rawURLs.count == 0{
             showAlert(MessageText: "Images Not Found", InformativeText: "")
             return
         }
+        
+        var allImageURLs = [NSString]()
+        for rawURL in rawURLs {
+            let url = NSURL(string: rawURL as NSString)
+            let html = NSString(contentsOfURL: url!, encoding: NSUTF8StringEncoding, error: nil)
+            let imageURL:NSArray = formalWithRule("<link href=\"(.*)\" rel=\"image_src\" />", content: html!)!
+            
+            allImageURLs.append(imageURL[0] as NSString)
+        }
+        
         
         var saveDir:NSURL?
         if(checkButton?.state == NSOnState){
@@ -126,7 +137,7 @@ class ViewController: NSViewController {
         indicator?.startAnimation(nil)
         startButton?.enabled = false
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            self.downloadData(rawURLs, contentString: contentString, saveDir: saveDir!)
+            self.downloadData(allImageURLs, contentString: contentString, saveDir: saveDir!)
             self.startButton?.enabled = true
             self.indicator?.stopAnimation(nil)
 
